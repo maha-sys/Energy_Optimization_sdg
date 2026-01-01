@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EnergyAI | Upload</title>
+  <link rel="stylesheet" href="../styles/theme.css">
+  <link rel="stylesheet" href="../styles/layout.css">
+  <link rel="stylesheet" href="../styles/components.css">
+</head>
+
+<body>
+
+<div class="navbar">
+  <h1>⚡ EnergyAI</h1>
+  <div class="nav-links">
+    <a href="home.html">Home</a>
+    <a href="upload.html">Upload</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="insights.html">Insights</a>
+    <a href="recommendations.html">Recommendations</a>
+    <a href="reports.html">Reports</a>
+  </div>
+</div>
+
+<div class="page">
+  <h2 class="page-title">Upload Energy Usage CSV</h2>
+
+  <div class="grid">
+    <div class="glass">
+      <h3>📁 Upload File</h3>
+      <p style="color:var(--text-muted)">
+        Upload monthly household energy consumption data
+        in CSV format.
+      </p>
+
+      <br>
+
+      <input type="file" accept=".csv">
+
+      <br><br>
+
+      <a href="dashboard.html">
+        <button class="btn">Analyze Energy Data</button>
+      </a>
+    </div>
+
+    <div class="glass">
+      <h3>ℹ️ CSV Format Guide</h3>
+      <p style="color:var(--text-muted)">
+        Ensure your CSV contains:
+      </p>
+      <ul style="color:var(--text-muted)">
+        <li>Month</li>
+        <li>Energy Usage (kWh)</li>
+      </ul>
+
+      <p style="color:var(--text-muted)">
+        Example:
+        <br>Jan, 320
+        <br>Feb, 340
+      </p>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
