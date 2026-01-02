@@ -19,8 +19,7 @@ CORS(app)
 
 # Paths
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, '..', 'model', 'energy_predictor.h5')
+MODEL_PATH = '../model/energy_predictor.h5'
 
 UPLOAD_FOLDER = '../uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -444,7 +443,6 @@ def download_pdf_report():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
