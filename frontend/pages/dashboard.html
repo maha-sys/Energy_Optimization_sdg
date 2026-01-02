@@ -12,9 +12,9 @@
 <body>
 
 <div class="navbar">
-  <h1>⚡ EnergyAI</h1>
+  <h1>⚡ VoltAI</h1>
   <div class="nav-links">
-    <a href="home.html">Home</a>
+    <a href="../index.html">Home</a>
     <a href="upload.html">Upload</a>
     <a href="dashboard.html">Dashboard</a>
     <a href="insights.html">Insights</a>
@@ -40,6 +40,17 @@
 
   <br>
 
+  <div class="glass">
+    <h3>Quick Predict</h3>
+    <label>Month <input id="predMonth" value="Jan"></label>
+    <label>Avg Daily (kWh) <input id="predAvg" value="10"></label>
+    <label>Peak Hours <input id="predPeak" value="3"></label>
+    <button id="predictBtn" class="btn">Predict</button>
+    <div id="predictResult" style="margin-top:10px"></div>
+  </div>
+
+  <br>
+
   <div class="glass" style="text-align:center">
     <p>Explore deeper analysis and optimization actions</p>
     <br>
@@ -50,6 +61,28 @@
   </div>
 </div>
 
-<script src="../scripts/charts.js"></script>
+<script type="module" src="../scripts/charts.js"></script>
+
+<script type="module">
+  import { predictUsage } from '../scripts/api.js';
+
+  document.getElementById('predictBtn').addEventListener('click', async () => {
+    const payload = {
+      Month: document.getElementById('predMonth').value,
+      Avg_Daily_KWh: parseFloat(document.getElementById('predAvg').value),
+      Peak_Usage_Hours: parseFloat(document.getElementById('predPeak').value)
+    };
+
+    document.getElementById('predictResult').textContent = 'Predicting...';
+    try {
+      const res = await predictUsage(payload);
+      if (res.error) document.getElementById('predictResult').textContent = 'Error: ' + res.error;
+      else document.getElementById('predictResult').textContent = `Predicted: ${res.predicted_units_kwh} kWh — Cost: ₹${res.estimated_cost}`;
+    } catch (e) {
+      document.getElementById('predictResult').textContent = 'Prediction failed: ' + e.message;
+    }
+  });
+</script>
+
 </body>
 </html>

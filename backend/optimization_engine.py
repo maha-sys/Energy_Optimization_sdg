@@ -103,7 +103,7 @@ class EnergyOptimizer:
             'breakdown': breakdown
         }
 
-    def generate_recommendations(self, df):
+    """def generate_recommendations(self, df):
         recommendations = []
 
         avg_units = df['Units_kWh'].mean()
@@ -135,4 +135,73 @@ class EnergyOptimizer:
         return {
             'recommendations': recommendations,
             'generated_at': datetime.now().isoformat()
+        }"""
+    def generate_recommendations(self, df):
+        recommendations = []
+
+        baseline_monthly = float(df['Units_kWh'].mean())
+        avg_daily = float(df['Avg_Daily_KWh'].mean())
+        expected_monthly = avg_daily * 30.0
+
+        # Fraction of rows with high peak hours (relative to 75th percentile)
+        peak_threshold = df['Peak_Usage_Hours'].quantile(0.75)
+        peak_rows = df[df['Peak_Usage_Hours'] >= peak_threshold]
+        peak_kwh = float(peak_rows['Units_kWh'].sum())
+
+        # Estimate shiftable energy and expected reduction (domain heuristics)
+        shiftable_frac = 0.5
+        est_shift_kwh = peak_kwh * shiftable_frac
+        est_reduction_kwh = est_shift_kwh * 0.2  # assume 20% of shiftable yields real savings
+
+        rate_per_kwh = (df['Cost'].sum() / df['Units_kWh'].sum()) if df['Units_kWh'].sum() > 0 else None
+        est_cost_savings = (est_reduction_kwh * rate_per_kwh) if rate_per_kwh is not None else None
+
+        # Peak-shaving recommendation
+        if est_reduction_kwh > baseline_monthly * 0.03:  # meaningful threshold (>3% baseline)
+            recommendations.append({
+                'priority': 'High',
+                'title': 'Peak-shaving (shift loads)',
+                'description': f'{len(peak_rows)} records indicate concentrated peak usage (≥ {peak_threshold}).',
+                'estimated_kwh_savings': round(est_reduction_kwh, 2),
+                'estimated_monthly_savings_inr': round(est_cost_savings, 2) if est_cost_savings is not None else None,
+                'potential_savings': f"{int((est_reduction_kwh/baseline_monthly)*100)}%",
+                'confidence': 'medium'
+            })
+
+        # Efficiency recommendations based on baseline and cost
+        est_eff_pct = 0.12 if baseline_monthly > 250 else 0.08
+        est_eff_kwh = baseline_monthly * est_eff_pct
+        est_eff_cost = est_eff_kwh * rate_per_kwh if rate_per_kwh is not None else None
+        if est_eff_kwh > 0:
+            recommendations.append({
+                'priority': 'Medium',
+                'title': 'Efficiency improvements',
+                'description': 'Energy-efficient appliances and insulation to reduce consumption.',
+                'estimated_kwh_savings': round(est_eff_kwh, 2),
+                'estimated_monthly_savings_inr': round(est_eff_cost, 2) if est_eff_cost is not None else None,
+                'potential_savings': f"{int(est_eff_pct*100)}%",
+                'confidence': 'low'
+            })
+
+        # High monthly anomaly detection
+        anomalies = {}
+        try:
+            monthly_avg = df.groupby('Month')['Units_kWh'].mean()
+            top_months = monthly_avg.sort_values(ascending=False).head(3).to_dict()
+            anomalies['top_months'] = {str(k): float(v) for k, v in top_months.items()}
+        except Exception:
+            anomalies['top_months'] = {}
+
+        # Peak hour ranking
+        try:
+            peak_by_hour = df.groupby('Peak_Usage_Hours')['Units_kWh'].mean().sort_values(ascending=False).head(5).to_dict()
+            anomalies['top_peak_hours'] = {str(int(k)): float(v) for k, v in peak_by_hour.items()}
+        except Exception:
+            anomalies['top_peak_hours'] = {}
+
+        return {
+            'recommendations': recommendations,
+            'anomalies': anomalies,
+            'generated_at': datetime.now().isoformat()
         }
+    

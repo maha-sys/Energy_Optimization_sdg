@@ -19,9 +19,20 @@ model/*.h5
 model/*.pkl
 
 # ===============================
+# Uploaded user data
+# ===============================
+uploads/
+
+# ===============================
 # IDE / OS files
 # ===============================
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
+
+# ===============================
+# Temporary / backup files
+# ===============================
+backup_model.py
+report.pdf

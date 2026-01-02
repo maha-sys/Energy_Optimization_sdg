@@ -14,6 +14,25 @@ from utils.preprocessing import load_encoders
 # Suppress TF warnings
 tf.get_logger().setLevel('ERROR')
 
+# Project root and model paths
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+MODEL_PATH = os.path.join(ROOT_DIR, 'model', 'energy_predictor.h5')
+
+# Load model once at import if available
+try:
+    MODEL = tf.keras.models.load_model(MODEL_PATH)
+    print("Model loaded for prediction module")
+except Exception:
+    MODEL = None
+
+# Load saved encoders (scaler, month_encoder)
+try:
+    scaler, month_encoder = load_encoders()
+except Exception as e:
+    scaler = None
+    month_encoder = None
+    print('Encoders not found:', e)
+
 def predict_energy(month, avg_daily, peak_hours):
     """
     Predict energy consumption based on input features
@@ -26,20 +45,15 @@ def predict_energy(month, avg_daily, peak_hours):
     Returns:
         Predicted energy consumption in kWh
     """
-    # Load trained model
-    try:
-        model = tf.keras.models.load_model("model/energy_predictor.h5")
-    except:
-        raise FileNotFoundError("❌ Model not found. Please train the model first using train_model.py")
-    
-    # Load saved encoders
-    scaler, month_encoder = load_encoders()
+    # Ensure encoders are available
+    if scaler is None or month_encoder is None:
+        raise FileNotFoundError("❌ Encoders not found. Please train the model first using train_model.py")
 
     # Encode month
     try:
         month_encoded = month_encoder.transform([month])[0]
-    except ValueError:
-        valid_months = list(month_encoder.classes_)
+    except Exception:
+        valid_months = list(getattr(month_encoder, 'classes_', []))
         raise ValueError(f"Invalid month '{month}'. Valid options: {valid_months}")
 
     # Prepare input as DataFrame with proper column names (fixes warning)
@@ -49,10 +63,13 @@ def predict_energy(month, avg_daily, peak_hours):
     )
     input_scaled = scaler.transform(input_data)
 
-    # Predict
-    prediction = model.predict(input_scaled, verbose=0)
+    # Predict using loaded MODEL
+    if MODEL is None:
+        raise FileNotFoundError("❌ Model not found. Please train the model first using train_model.py")
+
+    prediction = MODEL.predict(input_scaled, verbose=0)
     predicted_kwh = float(prediction[0][0])
-    
+
     return predicted_kwh
 
 

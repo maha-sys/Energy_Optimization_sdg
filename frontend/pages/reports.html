@@ -11,9 +11,9 @@
 <body>
 
 <div class="navbar">
-  <h1>⚡ EnergyAI</h1>
+  <h1>⚡ VoltAI</h1>
   <div class="nav-links">
-    <a href="home.html">Home</a>
+    <a href="../index.html">Home</a>
     <a href="upload.html">Upload</a>
     <a href="dashboard.html">Dashboard</a>
     <a href="insights.html">Insights</a>
@@ -48,12 +48,18 @@
         AI recommendations and cost-saving actions.
       </p>
       <br>
-      <button class="btn" onclick="alert('PDF enabled after backend')">
+      <button class="btn" onclick="downloadPDF()">
         Download PDF
       </button>
     </div>
   </div>
 </div>
-<script src="../scripts/download.js"></script>
+<!-- load jsPDF as client-side fallback if server can't generate PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script type="module">
+  import { downloadCSV, downloadPDF } from '../scripts/download.js';
+  window.downloadCSV = downloadCSV; // expose function for existing onclick
+  window.downloadPDF = downloadPDF;
+</script>
 </body>
 </html>

@@ -60,14 +60,16 @@ def load_and_preprocess(csv_path, save_encoders=True):
     scaler = MinMaxScaler()
     X_scaled = scaler.fit_transform(X)
     
-    # Save encoders for prediction phase
+    # Save encoders for prediction phase to the project's model directory
     if save_encoders:
-        os.makedirs("model", exist_ok=True)
-        with open("model/scaler.pkl", "wb") as f:
+        root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        model_dir = os.path.join(root_dir, 'model')
+        os.makedirs(model_dir, exist_ok=True)
+        with open(os.path.join(model_dir, 'scaler.pkl'), 'wb') as f:
             pickle.dump(scaler, f)
-        with open("model/month_encoder.pkl", "wb") as f:
+        with open(os.path.join(model_dir, 'month_encoder.pkl'), 'wb') as f:
             pickle.dump(month_encoder, f)
-        print("💾 Scaler and encoder saved to model/ directory")
+        print(f"💾 Scaler and encoder saved to {model_dir}")
     
     return X_scaled, y, scaler, month_encoder
 
@@ -81,9 +83,11 @@ def load_encoders():
         month_encoder: Fitted LabelEncoder
     """
     try:
-        with open("model/scaler.pkl", "rb") as f:
+        root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        model_dir = os.path.join(root_dir, 'model')
+        with open(os.path.join(model_dir, 'scaler.pkl'), 'rb') as f:
             scaler = pickle.load(f)
-        with open("model/month_encoder.pkl", "rb") as f:
+        with open(os.path.join(model_dir, 'month_encoder.pkl'), 'rb') as f:
             month_encoder = pickle.load(f)
         return scaler, month_encoder
     except FileNotFoundError:
