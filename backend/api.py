@@ -253,16 +253,18 @@ def predict_usage():
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/optimize', methods=['GET','POST'])
+@app.route('/optimize', methods=['GET', 'POST'])
 def optimize_energy():
-    # Provide a small browser form for manual testing
+
     if request.method == 'GET':
         return """
         <html><body>
         <h3>Optimize Energy</h3>
         <form method="post">
-          Target reduction (e.g., 0.15): <input name="target_reduction" value="0.15"/><br/>
-          Time horizon (days): <input name="time_horizon" value="30"/><br/>
+          Target reduction (e.g., 0.15):
+          <input name="target_reduction" value="0.15"/><br/>
+          Time horizon (days):
+          <input name="days" value="30"/><br/>
           <button type="submit">Run Optimize</button>
         </form>
         </body></html>
@@ -274,18 +276,24 @@ def optimize_energy():
             return jsonify({'error': 'Upload data first'}), 400
 
         df = pd.read_csv(filepath)
-        # Accept JSON or form-encoded input
-        data = request.json or {}
-        if not data and request.form:
-            data = {k: request.form.get(k) for k in ['target_reduction','time_horizon']}
 
+        # ✅ SAFE JSON handling
+        data = request.get_json(silent=True)
+
+        if not data and request.form:
+            data = request.form.to_dict()
+
+        if not data:
+            return jsonify({'error': 'No input data provided'}), 400
+
+        # ✅ ACCEPT BOTH frontend + form
         target_reduction = float(data.get('target_reduction', 0.15))
-        time_horizon = int(float(data.get('time_horizon', 30)))
+        days = int(float(data.get('days', data.get('time_horizon', 30))))
 
         recommendations = optimizer.optimize(
             df,
             target_reduction,
-            time_horizon
+            days
         )
 
         return jsonify(recommendations)
