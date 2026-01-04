@@ -65,44 +65,46 @@ Energy consumption data is often underutilized due to the lack of simple analyti
   
   Deployment
 
-  Frontend hosted on Netlify
+    Frontend hosted on Netlify
   
-  Backend hosted on Render
+    Backend hosted on Render
 
 📂 **Project Structure**
-project-root/
-│
-├── frontend/
-│   ├── index.html
-│   ├── upload.html
-│   ├── dashboard.html
-│   ├── insights.html
-│   ├── recommendations.html
-│   ├── reports.html
-│   └── styles/
-│
-├── backend/
-│   ├── app.py
-│   ├── model/
-│   ├── utils/
-│   └── requirements.txt
-│
-├── sample_data/
-│   └── energy_data.csv
-│
-└── README.md
+
+    project-root/
+    │
+    ├── frontend/
+    │   ├── index.html
+    │   ├── upload.html
+    │   ├── dashboard.html
+    │   ├── insights.html
+    │   ├── recommendations.html
+    │   ├── reports.html
+    │   └── styles/
+    │
+    ├── backend/
+    │   ├── app.py
+    │   ├── model/
+    │   ├── utils/
+    │   └── requirements.txt
+    │
+    ├── sample_data/
+    │   └── energy_data.csv
+    │
+    └── README.md
 
 📊 **CSV Input Format**
 
 VoltAI accepts monthly aggregated energy consumption data in CSV format.
 
 Required CSV Structure
-Month,Units_kWh,Avg_Daily_KWh,Peak_Usage_Hours,Cost
-January,280,9,18,350
-February,300,10,19,380
-March,320,10.6,19,410
-April,350,11.6,20,450
-May,380,12.6,21,500
+
+    Month,Units_kWh,Avg_Daily_KWh,Peak_Usage_Hours,Cost
+    January,280,9,18,350
+    February,300,10,19,380
+    March,320,10.6,19,410
+    April,350,11.6,20,450
+    May,380,12.6,21,500
 
 📌 **Column Description**
 
@@ -159,6 +161,7 @@ May,380,12.6,21,500
   Frontend: Netlify
   
   Backend API: Render
+
 
 
 
