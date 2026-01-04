@@ -1,9 +1,7 @@
-**⚡VoltAI – AI-Based Energy Optimization & Analysis System
-**
+⚡**VoltAI – AI-Based Energy Optimization & Analysis System**
   VoltAI is an AI-powered web application that analyzes energy consumption data to identify usage patterns, detect peak usage, predict future consumption, and provide actionable energy optimization recommendations. The system enables users to make informed decisions to reduce energy costs and improve efficiency.
 
-**🚀 Features
-**
+🚀 **Features**
   Upload monthly energy consumption data in CSV format
   
   Automated energy usage analysis
@@ -20,8 +18,8 @@
   
   Downloadable energy analysis reports
 
-##🧠 Problem Statement
-
+🧠 **Problem Statement
+**
 Energy consumption data is often underutilized due to the lack of simple analytical tools. Users find it difficult to understand trends, identify peak usage hours, and predict future energy needs, leading to inefficient energy usage and higher costs.
 
 ##💡 Solution Overview
@@ -159,4 +157,5 @@ May,380,12.6,21,500
   Frontend: Netlify
   
   Backend API: Render
+
 
