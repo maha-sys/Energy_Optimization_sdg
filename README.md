@@ -20,11 +20,11 @@ VoltAI is an AI-powered web application that analyzes energy consumption data to
   
   Downloadable energy analysis reports
 
-🧠 **Problem Statement
-**
+🧠 **Problem Statement**
+
 Energy consumption data is often underutilized due to the lack of simple analytical tools. Users find it difficult to understand trends, identify peak usage hours, and predict future energy needs, leading to inefficient energy usage and higher costs.
 
-##💡 Solution Overview
+💡 **Solution Overview**
 
   VoltAI provides a user-friendly platform that:
   
@@ -38,38 +38,38 @@ Energy consumption data is often underutilized due to the lack of simple analyti
   
   Recommends practical steps to optimize energy consumption
 
-##🛠️ Tech Stack
-###Frontend
-
-  HTML5
+🛠️ **Tech Stack**
+  Frontend
   
-  CSS3
+    HTML5
+    
+    CSS3
+    
+    JavaScript
+    
+    Chart.js
   
-  JavaScript
+  Backend
   
-  Chart.js
-
-###Backend
-
-  Python
+    Python
+    
+    Flask
+    
+  Machine Learning
+    
+    Pandas
+    
+    NumPy
+    
+    Scikit-learn
   
-  Flask
-  
-###Machine Learning
-  
-  Pandas
-  
-  NumPy
-  
-  Scikit-learn
-
-###Deployment
+  Deployment
 
   Frontend hosted on Netlify
   
   Backend hosted on Render
 
-##📂 Project Structure
+📂 **Project Structure**
 project-root/
 │
 ├── frontend/
@@ -92,7 +92,7 @@ project-root/
 │
 └── README.md
 
-##📊 CSV Input Format
+📊 **CSV Input Format**
 
 VoltAI accepts monthly aggregated energy consumption data in CSV format.
 
@@ -104,7 +104,7 @@ March,320,10.6,19,410
 April,350,11.6,20,450
 May,380,12.6,21,500
 
-##📌 Column Description
+📌 **Column Description**
 
   Month – Month of energy consumption record
   
@@ -116,7 +116,7 @@ May,380,12.6,21,500
   
   Cost – Total electricity cost for the month
 
-##🔄 How It Works
+🔄 **How It Works**
 
   User uploads a CSV file containing monthly energy data
   
@@ -130,7 +130,7 @@ May,380,12.6,21,500
   
   Optimization recommendations and reports are generated
 
-##📈 Use Cases
+📈 **Use Cases**
   
   Households monitoring electricity usage
   
@@ -140,7 +140,7 @@ May,380,12.6,21,500
   
   Energy consumption trend analysis and forecasting
 
-##🌱 Future Enhancements
+🌱 **Future Enhancements**
 
   Real-time data integration using smart meters and IoT devices
   
@@ -154,11 +154,12 @@ May,380,12.6,21,500
   
   Cloud scalability and enhanced security
 
-##📌 Deployment
-
+📌 **Deployment**
+  
   Frontend: Netlify
   
   Backend API: Render
+
 
 
 
