@@ -158,9 +158,8 @@ Required CSV Structure
 
 📌 **Deployment**
   
-  Frontend: Netlify
-  
-  Backend API: Render
+Render
+
 
 
 
