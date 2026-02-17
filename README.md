@@ -65,9 +65,7 @@ Energy consumption data is often underutilized due to the lack of simple analyti
   
   Deployment
 
-    Frontend hosted on Netlify
-  
-    Backend hosted on Render
+    hosted on Render
 
 📂 **Project Structure**
 
@@ -159,6 +157,7 @@ Required CSV Structure
 📌 **Deployment**
   
 Render
+
 
 
 
